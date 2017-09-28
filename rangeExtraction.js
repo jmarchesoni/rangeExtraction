@@ -10,6 +10,7 @@ var rangeExtraction = function(numberList)
 	// We initialize with the first element of the list array to avoid the extra
 	// loop required to check whether the consec array contains a value to
 	// compare against on the first loop iteration.
+	// TODO: Change array-based code to discrete values
 	let consec = [list.shift()];
 
 	// Iterate over list
