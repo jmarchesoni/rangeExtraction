@@ -1,47 +1,54 @@
-var rangeExtraction = function(numberList)
+var rangeExtraction = function(sortedSetArray)
 {
 	// Declare return variable
 	let output = "";
 
 	// Make a copy of the input array
-	let list = numberList.concat();
+	let list = sortedSetArray.concat();
 
-	// Initialize our temporary array to hold consecutive values
-	// We initialize with the first element of the list array to avoid the extra
-	// loop required to check whether the consec array contains a value to
-	// compare against on the first loop iteration.
-	let consec = [list.shift()];
+	// Initialize our variables to hold the first value and length of range.
+	let first, last, length = 0;
+
+	// Declare variable to hold current separator. Setting it to an empty
+	// string allows us to skip a check later to see if length is equal to 1
+	let sep = "";
 
 	// Iterate over list
-	for (let value of list)
+	for (let count = 0; count <= list.length; count++)
 	{
-		// Declare variable to hold current separator. Setting it to an empty
-		// string allows us to skip a check later to see if the length of the
-		// consec array is equal to 1
-		let sep = "";
+		// Set current value from array.
+		let value = list[count];
 
-		// If the current value is one greater than the last value in consec
-		if (value === consec[consec.length - 1] + 1)
+		// If the current value is one greater than the last value
+		if (value === last + 1)
 		{
-			// Add the current value to consec
-			consec.push(value);
+			// Set the last variable to value and increment length
+			last = value;
+			length++;
 		}
 		// Otherwise if not consecutive
 		else
 		{
 			// Figure out whether we have two consecutive numbers or a true range
 			// (three or more) and assign the separator accordingly.
-			if (consec.length === 2) sep = ",";
-			if (consec.length > 2) sep = "-";
+			if (length === 2) sep = ",";
+			if (length > 2) sep = "-";
+			
+			// We may need first and/or last to be empty strings depending on where
+			// we are in the loop: first run both are undefined, single non-
+			// consecutive number means last will be equal to first, last run first
+			// will be undefined.
+			output += (output ? "," : "") + (first || "") + sep;
+			output += (last !== first ? last || "" : "");
 
-			// If the consec array only contains one element, the expression that
-			// retrieves the second element when there's more than one will return
-			// undefined, which will be cast to an empty string during the
-			// concatenation.
-			output += "," + consec[0] + sep + consec[consec.length - 1];
+			// Reinitialize first and last with the current value from list.
+			first = last = value;
 
-			// Reinitialize the consec array with the current value from list.
-			consec = [value];
+			// Set length to 1
+			length = 1;
+
+			// Reset sep to an empty string
+			sep = "";
 		}
 	}
 
