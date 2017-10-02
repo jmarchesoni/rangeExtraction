@@ -7,7 +7,6 @@ var rangeExtraction = function(sortedSetArray)
 	let list = sortedSetArray.concat();
 
 	// Initialize our variables to hold the first value and length of range.
-	// TODO: Change array-based code to discrete values
 	let first, last, length = 0;
 
 	// Declare variable to hold current separator. Setting it to an empty
